@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
+		int len = nums.size();
+		vector<vector<int>> ans;
+		
+		if( len < 4 ){
+			return ans;
+		}
+		
+		for(int i = 0; i < len;){
+			// int vali = target - nums[i];
+			
+			for(int j = i + 1; j < len;){
+				// int val = vali - nums[j];
+			
+				int l = j + 1, r = len - 1;
+				while(l < r){
+					long long got = (long long)nums[i] + nums[j] + nums[l] + nums[r];
+					if(got == target){
+						ans.push_back({nums[i],nums[j],nums[l],nums[r]});
+					
+						l = upper_bound(nums.begin(),nums.end(),nums[l]) - nums.begin();
+						r = (lower_bound(nums.begin(),nums.end(),nums[r]) - nums.begin()) - 1;
+					}
+					else if(got < target){
+						l = upper_bound(nums.begin(),nums.end(),nums[l]) - nums.begin();
+					}
+					else {
+						r = (lower_bound(nums.begin(),nums.end(),nums[r]) - nums.begin()) - 1;
+					}
+				}
+				j = upper_bound(nums.begin(),nums.end(),nums[j]) - nums.begin();
+			}
+			i = upper_bound(nums.begin(),nums.end(),nums[i]) - nums.begin();
+		}
+		return ans;
+    }
+};

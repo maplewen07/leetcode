@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int rows = matrix.size(), cols = matrix[0].size();
+		int len = rows * cols;
+		vector<int> ans(len,0);
+
+		int dir = 0, v = 0;
+        if (cols <= 1) {
+            dir = 1;
+        }
+
+		int i = 0, j = 0;
+		for (int k = 0; k < len; k++){
+			ans[k] = matrix[i][j];
+			
+			if (dir == 0) {
+				j++;
+			} else if (dir == 1) {
+				i++;
+			} else if (dir == 2) {
+				j--;
+			} else if (dir == 3) {
+				i--;
+			}
+			
+			if ((i == v && j == cols - v - 1 && dir == 0) || 
+                (i == rows - v - 1 && j == cols - v - 1 && dir == 1) || 
+                (i == rows - v - 1 && j == v && dir == 2) || (i == v + 1 && j == v && dir == 3)){
+				
+                dir = (dir + 1) % 4;
+				if (dir == 0) {
+					v++;
+				}
+			}
+		}
+		return ans;
+    }
+};

@@ -1,0 +1,120 @@
+#include <iostream>
+using namespace std;
+
+/*
+vector<vector<int>> twoSum(vector<int>& nums, int idx, int target){
+	unordered_map<int,int> hashtable;
+	int len = nums.size();
+	vector<vector<int>> ans;
+	for(int i = idx; i < len; i++){
+		int findtarget = target - nums[i];
+		if (hashtable.find(findtarget) != hashtable.end()){
+			ans.push_back({hashtable[findtarget], i});
+		}
+		hashtable[nums[i]] = i; 
+	} 
+	return ans;
+}
+
+vector<vector<int>> threeSum(vector<int>& nums) {
+	sort(nums.begin(),nums.end());
+	int len = nums.size();
+	
+    set<vector<int>> check;
+	for	(int i = 0; i < len; i++){
+		int target = 0 - nums[i];
+		vector<vector<int>> rets = twoSum(nums,i + 1, target);
+		
+		for(vector<int> ret : rets){
+			if(ret[0] != -1){
+                    vector<int> tmp = {nums[i],nums[ret[0]],nums[ret[1]]};
+                    check.insert(tmp);
+			}
+		}
+		i = (upper_bound(nums.begin(),nums.end(), nums[i]) - nums.begin()) - 1;
+	}
+    vector<vector<int>> ans;
+    for(vector<int> e : check){
+        ans.push_back(e);
+    }
+    return ans;
+}*/
+
+vector<vector<int>> threeSum(vector<int>& nums){
+	int len = nums.size();
+	sort(nums.begin(),nums.end());
+	vector<vector<int>> ans;
+	
+	if(len < 3 || nums[0] > 0){
+		return ans;
+	}
+	
+	for (int i = 0; i < len; i++){
+		int target = 0 - nums[i];
+		
+		int l = i + 1, r = nums.size() - 1; 
+		
+		while(l < r){
+			int val = nums[l] + nums[r];
+			if(val == target){
+				ans.push_back({nums[i], nums[l],nums[r]});
+				
+				l = (upper_bound(nums.begin(),nums.end(),nums[l]) - nums.begin());
+				r = (lower_bound(nums.begin(),nums.end(),nums[r]) - nums.begin()) - 1;
+			}
+			else if(val < target){
+				l++;
+			}
+			else{
+				r--;
+			}
+		}
+		i = (upper_bound(nums.begin(),nums.end(),nums[i]) - nums.begin()) - 1;
+	}
+	return ans;
+}
+// 思考：
+// 在自己写这道题过程中，有思考过三指针用法，稍有卡点，没仔细思考，更想着延续两数之和的思路。
+// 卡点：当时定义的 l, idx, r。 原本想着是用 idx 在中， l, r 左右移动，来贴和。但是没怎么写过，思路不清晰。
+
+
+// 自己写的哈希法过于丑陋，重新书写。
+vector<vector<int>> threeSum(vector<int>& nums){
+	int len = nums.size();
+	sort(nums.begin(),nums.end());
+	vector<vector<int>> ans;
+	
+	if (len < 3 || nums[0] > 0){
+		return ans;
+	}
+	
+	unordered_map<int,int> map;
+	for(int i = 0; i < len; i++){
+		map[nums[i]] = i;
+	}
+	
+	for (int i = 0; i < len;){
+		int target = 0 - nums[i];
+		
+		for (int j = i + 1; j < len;){
+			int need = target - nums[j];
+			
+			if(map.find(need) != map.end()){
+				if(map[need] > j){
+					ans.push_back({nums[i], nums[j], need});
+				}
+				else {
+					break;
+				}
+			}
+			
+			j = upper_bound(nums.begin() + j,nums.end(), nums[j]) - nums.begin();
+		
+		}
+		i = upper_bound(nums.begin() + i,nums.end(),nums[i]) - nums.begin();
+	}
+	
+	return ans;
+}
+
+// 关于 upper_bound 的用法。 本质上是二分查找，在数据重复度不高的情况下没 while 直接查找快。

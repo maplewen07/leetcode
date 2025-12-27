@@ -1,0 +1,51 @@
+class Solution {
+public: 
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+		int len = customers.size();
+		vector<int> pre(len + 1,0);
+		vector<int> normal(len + 1,0);
+		for (int i = 1; i <= len; i++) {
+			normal[i] = customers[i - 1] * (1 - grumpy[i - 1]) + normal[i - 1];
+			pre[i] = customers[i - 1] + pre[i - 1];
+		}
+		int val = normal[len];
+		int ans = 0;
+		for (int i = 0; i <= len - minutes; i++) {
+			int diff = (pre[i + minutes] - pre[i]) - (normal[i + minutes] - normal[i]);
+			ans = max(ans, val + diff);
+		}
+		return ans;
+    }
+};
+
+class Solution {
+public: 
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+		int len = customers.size();
+		int val = 0;
+		for (int i = 0; i < len; i++) {
+			val += customers[i] * (1 - grumpy[i]);
+		}
+		
+		int left = 0, right = minutes;
+		
+		int normal = 0, modify = 0;
+		for (int i = 0; i < minutes; i++) {
+			normal += customers[i] * (1 - grumpy[i]);
+			modify += customers[i];
+		}
+		
+		int maxdiff = modify - normal;
+		
+		for (int i = 0; i < len - minutes; i++) {
+			normal += ((1 - grumpy[i + minutes]) * customers[i + minutes]  - (1 - grumpy[i]) * customers[i]);
+			modify += (customers[i + minutes] - customers[i]);
+		
+			maxdiff = max(modify - normal, maxdiff);
+		}
+		
+		return val + maxdiff;
+    }
+};
+
+// 前缀和 与 滑动窗口
