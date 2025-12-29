@@ -27,8 +27,8 @@ vector<vector<int>> threeSum(vector<int>& nums) {
 		
 		for(vector<int> ret : rets){
 			if(ret[0] != -1){
-                    vector<int> tmp = {nums[i],nums[ret[0]],nums[ret[1]]};
-                    check.insert(tmp);
+				vector<int> tmp = {nums[i],nums[ret[0]],nums[ret[1]]};
+				check.insert(tmp);
 			}
 		}
 		i = (upper_bound(nums.begin(),nums.end(), nums[i]) - nums.begin()) - 1;

@@ -61,3 +61,47 @@ public:
 		return ans;
     }
 };
+
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int len = nums.size();
+        int val = 0, ans = INT_MAX;
+        int left = 0, right = 0;
+
+        while (right < len) {
+            while (val < target && right < len) {
+                val += nums[right];
+                right++;
+            }
+            while (val >= target) {
+                ans = min(right - left, ans);
+                val -= nums[left];
+                left++;
+            }
+        }
+        return (ans == INT_MAX ? 0 : ans);
+    }
+};
+
+
+// 优化版本更好看些
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int len = nums.size();
+        int val = 0, ans = INT_MAX;
+        int left = 0, right = 0;
+
+        while (right < len) {
+            val += nums[right];
+            while (val >= target) {
+                ans = min(right - left + 1, ans);
+                val -= nums[left];
+                left++;
+            }
+            right++;
+        }
+        return (ans == INT_MAX ? 0 : ans);
+    }
+};
