@@ -1,0 +1,77 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode* endFirstNode = nullptr, *leftNode = nullptr, *rightNode = nullptr, *startSecondNode = nullptr;
+		int idx = 0;
+	
+		ListNode* pre = nullptr, ptr = head;
+		for (int i = 1; i <= right + 1; i++) {
+			if (i <= left - 1){
+				endFirstNode = ptr;
+				leftNode = ptr->next;
+				ptr = ptr->next;
+			} else if (i <= right && i >= left) {
+				if (i == right) {
+					rightNode = ptr;
+				}
+			
+				ListNode* tmp = ptr->next;
+				ptr->next = pre;
+				pre = ptr;
+				ptr = tmp;
+			} else if (i > right) {
+				startSecondNode = ptr;
+				ptr = ptr->next;
+			}
+		}
+		
+		endFirstNode->next = rightNode;
+		leftNode->next = startSecondNode;
+		
+		return head;
+    }
+};
+
+
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if (head == nullptr || head->next == nullptr || left == right) {
+            return head;
+        }
+
+        ListNode* dummyHead = new ListNode(-1);
+        dummyHead->next = head;
+        ListNode* endFirstNode = dummyHead;
+        for (int i = 0; i < left - 1; i++) {
+            endFirstNode = endFirstNode->next;
+        }
+
+        ListNode *leftNode = endFirstNode->next, *rightNode = nullptr;
+        ListNode *pre = nullptr, *ptr = endFirstNode->next;
+        for (int i = 0; i < right - left + 1; i++) {
+            if (i == right - left) {
+                rightNode = ptr;
+            }
+            ListNode* tmp = ptr->next;
+            ptr->next = pre;
+            pre = ptr;
+            ptr = tmp;
+        }
+
+        endFirstNode->next = rightNode;
+        leftNode->next = ptr;
+
+        return dummyHead->next;
+    }
+};

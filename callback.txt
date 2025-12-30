@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+typedef int(* FunPtr)(int);
+
+void f1(int nums[], int len, FunPtr fp) {
+	for (int i = 0; i < len; i++) {
+		nums[i] = fp(nums[i]);
+	}
+}
+
+int f2 (int num) {
+	return num * num;
+}
+
+int main() {
+	int len;
+	cin >> len;
+	int* arr = new int[len];
+	
+	for (int i = 0; i < len; i++) {
+		cin >> nums[i];
+	}
+	
+	f1(nums, len, f2);
+
+	for (int i = 0; i < len; i++) {
+		cout << nums[i] << " ";
+	}
+	return 0;
+}
