@@ -1,0 +1,84 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+        ListNode* dummyHead = new ListNode(-5001);
+
+        ListNode* prev = dummyHead;
+        ListNode* ptr = head;
+        ListNode* next = nullptr;
+
+        while (ptr != nullptr) {
+            next = ptr->next;
+            ptr->next = nullptr;
+            int target = ptr->val;
+
+            if (target < prev->val) {
+                for (ListNode* node = dummyHead; node != ptr; node = node->next) {
+                    if (node->val <= target && node->next->val >= target) {
+                        ptr->next = node->next;
+                        node->next = ptr;
+                        break;
+                    }
+                }
+                prev->next = next;
+            } else {
+                prev->next = ptr;
+                prev = prev->next;
+            }
+            ptr = next;
+        }
+        ListNode* ans = dummyHead->next;
+        delete dummyHead;
+        return ans;
+    }
+};
+
+
+
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+        ListNode* dummyHead = new ListNode(-5001, head);
+
+        ListNode* prev = dummyHead;
+        ListNode* ptr = head;
+        ListNode* next = nullptr;
+
+        while (ptr != nullptr) {
+            next = ptr->next;
+            int target = ptr->val;
+
+            if (target < prev->val) {
+                ListNode* node = dummyHead;
+                while (node->next->val <= target) {
+                    node = node->next;
+                }
+                ptr->next = node->next;
+                node->next = ptr;
+                prev->next = next;
+            } else {
+                prev = prev->next;
+            }
+            ptr = next;
+        }
+        ListNode* ans = dummyHead->next;
+        delete dummyHead;
+        return ans;
+    }
+};

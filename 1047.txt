@@ -1,0 +1,42 @@
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        stack<char> st;
+        reverse(s.begin(), s.end());
+        int len = s.size();
+
+        for (int i = 0; i < len; i++) {
+            if (st.empty()) {
+                st.push(s[i]);
+            } else {
+                char topChar = st.top();
+                if (topChar == s[i]) {
+                    st.pop();
+                } else {
+                    st.push(s[i]);
+                }
+            }
+        }
+        string ans = "";
+        while (!st.empty()) {
+            ans += st.top();
+            st.pop();
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    string removeDuplicates(string s) {
+		string stk;
+		for (char ch : s) {
+			if (!stk.empty() && stk.back() == ch){
+				stk.pop_back();
+			} else {
+				stk.push_back(ch);
+			}
+		}
+		return stk;
+    }
+};

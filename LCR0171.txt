@@ -1,0 +1,78 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+        if (headA == nullptr || headB == nullptr ) {
+            return nullptr;
+        }
+        ListNode* ptrA = headA;
+        ListNode* ptrB = headB;
+        int a = getLength(headA), b = getLength(headB), k = 0;
+        while (1) {
+            k++;
+
+            if (ptrA == ptrB) {
+                return ptrA;
+            }
+
+            if (k > (a + b)) {
+                return nullptr;
+            }
+
+            if (ptrA->next != nullptr) {
+                ptrA = ptrA->next;
+            } else {
+                ptrA = headB;
+            }
+
+            if (ptrB->next != nullptr) {
+                ptrB = ptrB->next;
+            } else {
+                ptrB = headA;
+            }
+        }
+    }
+
+    int getLength(ListNode* head) {
+        int len = 0;
+        ListNode* ptr = head;
+        while (ptr != nullptr) {
+            len++;
+            ptr = ptr->next;
+        }
+        return len;
+    }
+};
+
+
+class Solution {
+public:
+    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+        if (headA == nullptr || headB == nullptr) {
+            return nullptr;
+        }
+        ListNode* ptrA = headA;
+        ListNode* ptrB = headB;
+
+        /*
+        while (ptrA != ptrB) {
+            ptrA = (ptrA->next != nullptr ? ptrA->next : headB;
+            ptrB = (ptrB->next != nullptr ? ptrB->next : headA);
+        }
+        // 当都遍历一遍后，必定会 ptrA == ptrB == nullptr; 跳出循环
+        */
+        while (ptrA != ptrB) {
+            ptrA = (ptrA != nullptr ? ptrA->next : headB);
+            ptrB = (ptrB != nullptr ? ptrB->next : headA);
+        }
+
+        return ptrA;
+    }
+};

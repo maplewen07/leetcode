@@ -1,0 +1,79 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+/* Wrong Answer!!!
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+
+        ListNode* dummyHead = new ListNode(-101, head);
+        ListNode *prev = dummyHead, *cur = head, *next = head->next;
+        bool flag = false;
+        while (cur != nullptr && next != nullptr) {
+            // cout << prev->val << " " << cur->val << " " << next->val << endl;
+            if (cur->val == next->val) {
+                // cur->next = next->next;
+                flag = true;
+            } else {
+                if (flag) {
+                    prev->next = next;
+                    flag = false;
+
+                    if (next->next != nullptr) {
+                        if (next->val != next->next->val) {
+                            prev = prev->next;
+                        }
+                    }
+                }
+                else {
+                    prev = prev->next;
+                }
+            }
+
+            cur = cur->next;
+            next = next->next;
+        }
+        ListNode* ans = dummyHead->next;
+        delete dummyHead;
+        return ans;
+    }
+};*/
+
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+
+        ListNode* dummyHead = new ListNode(-101, head);
+        ListNode* cur = dummyHead;
+        while (cur->next != nullptr && cur->next->next != nullptr) {
+            if (cur->next->val == cur->next->next->val) {
+                int x = cur->next->val;
+                while (cur->next && cur->next->val == x) {
+                    cur->next = cur->next->next;
+                }
+            } else {
+                cur = cur->next;
+            }
+        }
+        ListNode* ans = dummyHead->next;
+        delete dummyHead;
+        return ans;
+    }
+};
+
+// 从前往后删。多个 next.
