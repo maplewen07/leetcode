@@ -1,0 +1,35 @@
+/*
+ * 定义一个 union，包含 int、float 和 char 类型的成员。
+ * 编写一个程序，允许用户选择数据类型（通过输入），然后根据选择输入相应的值，并输出该值。
+ *
+ */
+ 
+#include <iostream>
+using namespace std;
+
+union MyUnion {
+	int a;
+	float b;
+	char c;
+};
+
+
+int main() {
+
+	char op;
+	MyUnion u;
+	while (true) {
+		cin >> op;
+		if (op == 'a') {
+			cin >> u.a; 
+			cout << u.a << endl;
+		} else if (op == 'b') {
+			cin >> u.b;
+			cout << u.b << endl;
+		} else if (op == 'c') {
+			cin >> u.c;
+			cout << u.c << endl;
+		}
+	}
+
+}

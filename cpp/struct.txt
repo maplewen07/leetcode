@@ -1,0 +1,35 @@
+/*
+ * 定义一个表示图书信息的 struct，包括书名（char 数组）、作者（char 数组）、出版年份（int）和价格（float）。
+ * 编写一个程序，允许用户输入图书信息，并使用函数输出图书信息。
+ * 
+ */
+ 
+ 
+#include <iostream>
+using namespace std;
+
+struct Book {
+	char name[40]; 
+	char author[40];
+	int publish_time;
+	float price;
+};
+
+void print(const Book& book) {
+	cout << "书名: " << book.name << endl;
+	cout << "作者: " << book.author << endl;
+	cout << "出版年份:" << book.publish_time << endl;
+	cout << "价格: " << book.price << endl;
+}
+
+int main() {
+
+	Book b = {};
+	// cin >> b.name >> b.author >> b.publish_time >> b.price >> endl;
+	cin.getline(b.name, 40);
+	cin.getline(b.author, 40);
+	cin >> b.publish_time >> b.price;
+
+	print(b);
+	return 0;
+}

@@ -1,0 +1,109 @@
+class MyQueue {
+public:
+    MyQueue() {}
+
+    void push(int x) { instk.push(x); }
+
+    int pop() {
+        while (!outstk.empty()) {
+            outstk.pop();
+        }
+
+        while (!instk.empty()) {
+            outstk.push(instk.top());
+            instk.pop();
+        }
+
+        int top = outstk.top();
+        outstk.pop();
+
+        while (!outstk.empty()) {
+            instk.push(outstk.top());
+            outstk.pop();
+        }
+        return top;
+    }
+
+    int peek() {
+        while (!outstk.empty()) {
+            outstk.pop();
+        }
+
+        while (!instk.empty()) {
+            outstk.push(instk.top());
+            instk.pop();
+        }
+
+        int top = outstk.top();
+
+        while (!outstk.empty()) {
+            instk.push(outstk.top());
+            outstk.pop();
+        }
+        return top;
+    }
+
+    bool empty() {
+        if (instk.empty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+private:
+    stack<int> instk;
+    stack<int> outstk;
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue* obj = new MyQueue();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->peek();
+ * bool param_4 = obj->empty();
+ */
+ 
+
+// 没有必要每次都颠倒。当 outstk 取完后，再从 instk 中取
+ 
+class MyQueue {
+public:
+    MyQueue() {}
+
+    void push(int x) { 
+        instk.push(x);
+    }
+
+    int pop() {
+        if (outstk.empty()) {
+            in2out();
+        }
+        int top = outstk.top();
+        outstk.pop();
+        return top;
+    }
+
+    int peek() {
+        if (outstk.empty()) {
+            in2out();
+        }
+        return outstk.top();
+    }
+
+    bool empty() { 
+        return instk.empty() && outstk.empty(); 
+    }
+
+private:
+    stack<int> instk;
+    stack<int> outstk;
+
+    void in2out() {
+        while (!instk.empty()) {
+            outstk.push(instk.top());
+            instk.pop();
+        }
+    }
+};

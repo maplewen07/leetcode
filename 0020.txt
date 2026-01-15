@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        string stk = "";
+
+        for (char ch : s) {
+            if (!stk.empty()) {
+                if ((ch == ')' && stk.back() == '(') ||
+                    (ch == '}' && stk.back() == '{') ||
+                    (ch == ']' && stk.back() == '[')) {
+                    stk.pop_back();
+                } else {
+                    stk.push_back(ch);
+                }
+            } else {
+                stk.push_back(ch);
+            }
+        }
+        return (stk == "" ? true : false);
+    }
+};
+
+
+class Solution {
+public:
+    bool isValid(string s) {
+        string stk = "";
+
+        for (char ch : s) {
+            if (!stk.empty()) {
+                if ((ch == ')' && stk.back() == '(') ||
+                    (ch == '}' && stk.back() == '{') ||
+                    (ch == ']' && stk.back() == '[')) {
+                    stk.pop_back();
+                    continue;
+                }
+            }
+            stk.push_back(ch);
+        }
+        return (stk == "" ? true : false);
+    }
+};

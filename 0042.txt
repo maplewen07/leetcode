@@ -1,0 +1,79 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int len = height.size();
+
+        int max_idx = 0;
+        for (int i = 0; i < len; i++) {
+            if (height[max_idx] <= height[i]) {
+                max_idx = i;
+            }
+        }
+
+        vector<int> left = vector(height.begin(), height.begin() + max_idx + 1);
+        vector<int> right = vector(height.begin() + max_idx, height.begin() + len);
+        reverse(right.begin(), right.end());
+
+        int ans = getAns(left) + getAns(right);
+        return ans;
+    }
+
+    int getAns(vector<int>& height) {
+        int len = height.size();
+        stack<int> stk;
+        vector<int> record(len, 0);
+
+        for (int i = 0; i < len; i++) {
+            while (!stk.empty() && height[stk.top()] <= height[i]) {
+                record[stk.top()] = i - stk.top();
+                stk.pop();
+            }
+            stk.push(i);
+        }
+
+        int ans = 0;
+        for (int i = 0; i < len; i++) {
+            if (record[i] > 1) {
+                int left = i, right = i + record[i];
+                int h = min(height[left], height[right]);
+
+                for (int j = left; j <= right; j++) {
+                    int val = h - height[j];
+                    if (val > 0) {
+                        ans += val;
+                    }
+                }
+                i = right - 1;
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int len = height.size();
+		int ans = 0;
+		stack<int> stk;
+		for (int i = 0; i < len; i++) {
+			while (!stk.empty() && height[i] > height[stk.top()]) {
+				int mid = stk.top();
+				int h = height[mid];
+				stk.pop();
+				if (stk.empty()) {
+					// stk.push(mid);
+					break;
+				}
+				int left = stk.top();
+				// stk.pop();
+				int curwidth = i - left - 1;
+				int curheight = min(height[i], height[left]) - h;
+				ans += curheight * curwidth;
+			}
+			stk.push(i);
+		}
+        return ans;
+    }
+
+};

@@ -1,0 +1,47 @@
+/*
+ * 题目3：定义一个enum类型表示一周的七天。编写一个程序，允许用户输入一个数字（1-7），然后输出对应的星期几名称。
+ *
+ */
+
+#include <iostream>
+using namespace std;
+
+enum MyEnum {
+    Monday = 1,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday
+};
+
+const char* dayToString(MyEnum e) {
+    switch (e) {
+        case Monday:    return "Monday";
+        case Tuesday:   return "Tuesday";
+        case Wednesday: return "Wednesday";
+        case Thursday:  return "Thursday";
+        case Friday:    return "Friday";
+        case Saturday:  return "Saturday";
+        case Sunday:    return "Sunday";
+        default:        return "Unknown";
+    }
+}
+
+int main() {
+    int k = 10;
+    while (k--) {
+        int day;
+        cin >> day;
+
+        if (day < 1 || day > 7) {
+            cout << "输入非法，重新输入!" << endl;
+            continue;
+        }
+
+        MyEnum e = static_cast<MyEnum>(day);
+        cout << dayToString(e) << endl;
+    }
+    return 0;
+}

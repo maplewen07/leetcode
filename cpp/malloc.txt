@@ -1,0 +1,34 @@
+/*
+ * 题目1：编写一个程序，使用malloc动态分配一个整型数组的空间，允许用户输入数组的大小（不超过100），
+ * 然后输入数组的元素值，并打印出数组的内容，最后使用 free 释放内存。
+ */
+ 
+#include <iostream>
+using namespace std;
+
+int main() {
+	int n;
+	cin >> n;
+	
+	if (n <= 0 || n > 100) {
+		cout << "输入的 n 不合法，请重新输入。" << endl;
+		return -1;
+	}
+	
+	int* arr = (int*)malloc(n * sizeof(int));
+	
+	if (arr == NULL) {
+		cout << "malloc failed!" << endl;
+		return -1;
+	}
+	
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+	free(arr);
+	return 0;
+}

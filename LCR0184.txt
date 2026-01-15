@@ -1,0 +1,122 @@
+/*
+ * Wrong Answer!
+ * 
+class Checkout {
+public:
+    Checkout() {
+        max_value = 0;
+    }
+
+    int get_max() {
+        if (que.empty()) {
+            max_value = 0;
+            return -1;
+        }
+        return max_value;
+    }
+
+    void add(int value) {
+        que.push(value);
+
+        if (value >= max_value) {
+            max_value = value;
+            while (!max_que.empty()) {
+                max_que.pop();
+            }
+        } else {
+            max_que.push(value);
+            while (!max_que.empty() && max_que.front() < max_que.back()) {
+                max_que.pop();
+            }
+        }
+    }
+
+    int remove() {
+        if (que.empty()) {
+            return -1;
+        }
+        int front = que.front();
+        que.pop();
+
+        if (max_value <= front) {
+            if (!max_que.empty() ) {
+                max_value = max_que.front();
+                max_que.pop();
+                while (!max_que.empty() && max_que.front() < max_que.back()) {
+                    max_que.pop();
+                }
+            } else {
+
+            }
+        }
+
+        if (que.empty()) {
+            max_value = 0;
+        }
+
+        return front;
+    }
+
+private:
+    queue<int> que;
+    queue<int> max_que;
+    int max_value;
+};
+ *
+ * 
+ */
+ 
+// 为什么会报错？
+// 我想维护最大值候选链。 这需要删除尾部
+// 无法保证把所有“无用候选”删干净
+// 无用候选残留后，最大值更新时就会被它们“污染”
+
+/*
+ * [4, 2] + 新来 3
+ * 该删的是尾部 2（因为 2 < 3），跟队头 4 没关系
+ * 你的判断却看 front(4) 和 back(3)，自然看不出来 2 应该被删
+ *
+ */
+ 
+
+class Checkout {
+public:
+    Checkout() {
+
+    }
+
+    int get_max() {
+        if (que.empty() || mx.empty()) {
+            return -1;
+        }
+        return mx.front();
+    }
+
+    void add(int value) {
+        que.push(value);
+
+        while (!mx.empty() && mx.back() < value) {
+            mx.pop_back();
+        }
+        mx.push_back(value);
+    }
+
+    int remove() {
+        if (que.empty()) {
+            return -1;
+        }
+
+        int front = que.front();
+        que.pop();
+
+        if (!mx.empty() && mx.front() == front) {
+            mx.pop_front();
+        }
+
+        return front;
+    }
+
+private:
+    queue<int> que;
+    deque<int> mx;
+};

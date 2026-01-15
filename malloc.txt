@@ -1,0 +1,30 @@
+/* 
+ * 题目1：编写一个程序，动态分配一个整型数组的内存空间，
+ * 用于存储用户输入的5个整数，然后遍历并打印这些整数。最后，释放分配的内存。
+ */
+ 
+#include <iostream>
+using namespace std;
+
+int main() {
+	int n;
+	cin >> n;
+	
+	int* arr = (int*)malloc(sizeof(int) * n);
+	if (arr == NULL) {
+		cout << "malloc failed !" << endl;
+		return -1;
+	}
+	
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+	
+	free(arr);
+	return 0;
+}

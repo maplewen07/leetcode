@@ -1,0 +1,49 @@
+/*
+ * 题目2：编写一个程序，包含两个函数。第一个函数使用栈内存（局部变量）存储并打印一个整数数组；
+ * 第二个函数使用堆内存动态分配并存储用户输入的整数数组，然后打印并释放内存。
+ * 通过这两个函数的调用，展示栈内存和堆内存在使用上的区别。
+ */
+ 
+#include <iostream>
+using namespace std;
+
+void stack(){
+	int arr[] = {1,2,3,4,5};
+	
+	for (int i = 0; i < 5; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+}
+
+void heap(){
+	int n;
+	cin >> n;
+	
+	int* arr = (int*)calloc(n, sizeof(int));
+	if (arr == NULL) {
+		cout << "calloc failed !" << endl;
+		return;
+	}
+	
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+	
+	cout << endl;
+	
+	free(arr);
+}
+
+
+
+
+int main() {
+	stack();
+	heap();
+	return 0;
+}
